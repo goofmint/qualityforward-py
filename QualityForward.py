@@ -1,4 +1,5 @@
 import json
+import datetime
 from .Project import Project
 from .TestSuite import TestSuite
 from .TestPhase import TestPhase
@@ -31,3 +32,5 @@ class QualityForward:
         with urllib.request.urlopen(req) as res:
             body = json.load(res)
         return body
+    def to_date(self, str):
+        return datetime.datetime.strptime(str, '%Y-%m-%dT%H:%M:%S.%f%z')

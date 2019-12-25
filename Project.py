@@ -6,5 +6,7 @@ class Project(Map):
         for key in body:
             if key == 'tenant':
                 self[key] = Tenant(q, body[key])
+            elif key == 'created_at' or key == 'updated_at':
+                self[key] = q.to_date(body[key])
             else:
                 self[key] = body[key]

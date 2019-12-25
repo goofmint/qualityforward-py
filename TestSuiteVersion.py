@@ -8,5 +8,7 @@ class TestSuiteVersion(Map):
         for key in body:
             if key == 'user':
                 self[key] = User(q, body[key])
+            elif key == 'created_at' or key == 'updated_at':
+                self[key] = q.to_date(body[key])
             else:
                 self[key] = body[key]

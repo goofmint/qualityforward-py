@@ -8,5 +8,7 @@ class TestPhase(Map):
                 self[key] = []
                 for t in body[key]:
                     self[key].append(TestSuiteAssignment(q, self, t))
+            elif key == 'created_at' or key == 'updated_at':
+                self[key] = q.to_date(body[key])
             else:
                 self[key] = body[key]
