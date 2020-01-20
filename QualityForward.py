@@ -3,9 +3,15 @@ import datetime
 from .Project import Project
 from .TestSuite import TestSuite
 from .TestPhase import TestPhase
+from .TestSuiteVersion import TestSuiteVersion
 import urllib.request
+import re
 
 class QualityForward:
+    def TestPhase(self):
+        return TestPhase(self)
+    def TestSuiteVersion(self):
+        return TestSuiteVersion(self)
     def __init__(self, api_key):
         self.api_key = api_key
         self.url = "https://cloud.veriserve.co.jp/"
@@ -27,10 +33,23 @@ class QualityForward:
         for test_suite in body['test_suites']:
             test_suites.append(TestSuite(self, test_suite))
         return test_suites
+    def to_json(self, data):
+        return json.dumps(data).encode('UTF-8')
     def get_json(self, url):
         req = urllib.request.Request(url)
         with urllib.request.urlopen(req) as res:
             body = json.load(res)
         return body
+    def post_json(self, url, data):
+        headers = {'Content-Type': 'application/json'}
+        try:
+            req = urllib.request.Request(url, method='POST', data=data, headers=headers)
+            with urllib.request.urlopen(req) as res:
+                body = json.load(res)
+            return body
+        except urllib.error.HTTPError as e:
+            print(e.headers)
     def to_date(self, str):
+        if re.match(r'^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}$', str):
+            return datetime.datetime.strptime(str, '%Y-%m-%d')
         return datetime.datetime.strptime(str, '%Y-%m-%dT%H:%M:%S.%f%z')
