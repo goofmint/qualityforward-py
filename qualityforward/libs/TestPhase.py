@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .Map import Map
 from .TestSuiteAssignment import TestSuiteAssignment
 class TestPhase(Map):

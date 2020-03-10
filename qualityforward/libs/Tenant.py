@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .Map import Map
 class Tenant(Map):
     def __init__(self, q, body):
