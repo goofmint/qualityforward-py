@@ -2,7 +2,7 @@ import setuptools
  
 setuptools.setup(
     name="qualityforward",
-    version="1.0",
+    version="1.1",
     author="Atsushi Nakatsugawa",
     author_email="atsushi@moongift.jp",
     description="Python library for QualityForward API",

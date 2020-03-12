@@ -2,16 +2,18 @@
 
 import json
 import datetime
-from .libs/Project import Project
-from .libs/TestSuite import TestSuite
-from .libs/TestPhase import TestPhase
-from .libs/TestSuiteVersion import TestSuiteVersion
+from .Project import Project
+from .TestSuite import TestSuite
+from .TestPhase import TestPhase
+from .TestSuiteVersion import TestSuiteVersion
 import urllib.request
 import re
 
 class QualityForward:
     def TestPhase(self):
         return TestPhase(self)
+    def TestSuite(self):
+        return TestSuite(self)
     def TestSuiteVersion(self):
         return TestSuiteVersion(self)
     def __init__(self, api_key):
@@ -49,6 +51,14 @@ class QualityForward:
             with urllib.request.urlopen(req) as res:
                 body = json.load(res)
             return body
+        except urllib.error.HTTPError as e:
+            print(e.headers)
+    def delete_json(self, url):
+        headers = {'Content-Type': 'application/json'}
+        try:
+            req = urllib.request.Request(url, method='DELETE', headers=headers)
+            with urllib.request.urlopen(req) as res:
+                return res == ''
         except urllib.error.HTTPError as e:
             print(e.headers)
     def to_date(self, str):
